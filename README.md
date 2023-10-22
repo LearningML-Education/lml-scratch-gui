@@ -1,3 +1,26 @@
+# lml-scratch-gui
+
+## Repository organization
+
+- Branch `develop` has been cloned from https://github.com/scratchfoundation/scratch-gui.git, and has been uploaded to this repo in order to incorporate new code in the future. This branch match with tag v3.2.26.
+
+- Branch `dev` has been created from the `develop` branch (9217fd3bad3456820b76c0e7cf6a00c844b8e85d). Branch `dev` will be our develop branch where changes for LML project will be made. Once these changes have been tested enough, they will be merged with main.
+
+In order to merge changes made by the Scratch team in our `dev` branch, you must follow the following steps:
+
+    # git clone https://gitlab.com/lml-corp/lml-scratch-gui
+    # git remote add upstream https://github.com/scratchfoundation/scratch-gui
+    # git fetch upstream develop
+    # git checkout develop
+    # git merge upstream/develop
+    # git checkout dev
+    # git merge develop
+
+Conflicts that appear must be resolved before continuing to develop new features or mergin with `main`.
+
+# Original README.md
+
+
 # scratch-gui
 #### Scratch GUI is a set of React components that comprise the interface for creating and running Scratch 3.0 projects
 
