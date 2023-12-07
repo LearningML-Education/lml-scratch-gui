@@ -18,6 +18,43 @@ In order to merge changes made by the Scratch team in our `dev` branch, you must
 
 Conflicts that appear must be resolved before continuing to develop new features or mergin with `main`.
 
+# Installing LearningML-Scratch for development
+
+With node 20.10.0
+
+Clone the repos:
+
+    $ git clone git@gitlab.com:learningml/lml-scratch-gui.git
+    $ git clone git@gitlab.com:learningml/lml-scratch-vm.git
+    $ git clone git@gitlab.com:learningml/lml-scratch-l10n.git
+
+Install dependencies:
+
+    $ cd lml-scratch-l10n
+    $ npm install
+    $ npm run build
+    $ npm link
+    $ cd ../lml-scratch-vm
+    $ npm install
+    $ npm link
+    $ npm link scratch-l10n
+    $ cd ../lml-scratch-gui
+    $ npm install
+    $ npm link scratch-vm scratch-l10n
+
+Run the application:
+
+    $ cd ../lml-scratch-gui
+    $ npm start
+
+Once the lml-scratch-gui have been compiled, you can access to the 
+plaftorm pointing your browser to: `http://localhost:8601`.
+
+
+Note: the commands `npm link <scratch-library>` change the code of the original
+dependency to the ones that have been linked previously, that is, in our case we 
+use our version of scratch-vm (learning-scratch-vm) and scratch-l10n (learning-scratch-l10n).
+
 # Original README.md
 
 

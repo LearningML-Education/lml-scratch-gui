@@ -46,6 +46,11 @@ import gdxforInsetIconURL from './gdxfor/gdxfor-small.svg';
 import gdxforConnectionIconURL from './gdxfor/gdxfor-illustration.svg';
 import gdxforConnectionSmallIconURL from './gdxfor/gdxfor-small.svg';
 
+import echidnaIconURL from './echidna/echidna.png';
+import echidnaInsetIconURL from './echidna/erizo.png';
+import echidnaConnectionIconURL from './echidna/echidna-illustration.svg';
+import echidnaConnectionSmallIconURL from './echidna/echidna-small.svg';
+
 export default [
     {
         name: (
@@ -317,5 +322,21 @@ export default [
             />
         ),
         helpLink: 'https://scratch.mit.edu/vernier'
-    }
+    },
+    {
+        name: 'Echidna',
+        extensionId: 'echidna',
+        collaborator: 'echidna',
+        iconURL: echidnaIconURL,
+        insetIconURL: echidnaInsetIconURL,
+        description: (
+            <FormattedMessage
+                defaultMessage="Connect your projects with the world."
+                description="Description for the 'echidna' extension"
+                id="gui.extension.echidna.description"
+            />
+        ),
+        featured: true,
+        helpLink: 'http://echidna.es/'
+    },
 ];
