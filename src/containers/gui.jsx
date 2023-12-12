@@ -59,6 +59,8 @@ class GUI extends React.Component {
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
         setProjectIdMetadata(this.props.projectId);
+
+        this.props.vm.extensionManager.loadExtensionIdSync('echidna')
     }
     componentDidUpdate (prevProps) {
         if (this.props.projectId !== prevProps.projectId) {
