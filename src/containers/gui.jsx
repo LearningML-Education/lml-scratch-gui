@@ -60,7 +60,10 @@ class GUI extends React.Component {
         this.props.onVmInit(this.props.vm);
         setProjectIdMetadata(this.props.projectId);
 
-        this.props.vm.extensionManager.loadExtensionIdSync('echidna')
+        this.props.vm.extensionManager.loadExtensionIdSync('echidna');
+        this.props.vm.extensionManager.loadExtensionIdSync('learningmlTexts');
+        this.props.vm.extensionManager.loadExtensionIdSync('learningmlImages');
+        this.props.vm.extensionManager.loadExtensionIdSync('learningmlNumerical');
     }
     componentDidUpdate (prevProps) {
         if (this.props.projectId !== prevProps.projectId) {
