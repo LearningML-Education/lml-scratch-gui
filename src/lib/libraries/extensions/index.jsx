@@ -52,9 +52,7 @@ import echidnaConnectionIconURL from './echidna/echidna-illustration.svg';
 import echidnaConnectionSmallIconURL from './echidna/echidna-small.svg';
 
 import learningmlIconURL from './learningml-texts/learningml.png';
-import learningmlTextInsetIconURL from './learningml-texts/learningml-text-small.svg';
-import learningmlImageInsetIconURL from './learningml-images/learningml-image-small.svg';
-import learningmlNumericalInsetIconURL from './learningml-numerical/learningml-numerical-small.svg';
+import learningmlInsetIconURL from './learningml-texts/learningml-text-small.svg';
 
 export default [
     {
@@ -345,47 +343,15 @@ export default [
         helpLink: 'http://echidna.es/'
     },
     {
-        name: 'LearningMLTexts',
-        extensionId: 'learningmlTexts',
+        name: 'LearningML',
+        extensionId: 'learningml',
         collaborator: 'KGBIII, EchidnaSTEAM, Scratch al Sur',
         iconURL: learningmlIconURL,
-        insetIconURL: learningmlTextInsetIconURL,
+        insetIconURL: learningmlInsetIconURL,
         description: (
             <FormattedMessage
             defaultMessage="Build Machine Learning models with LearningML and use them with Scratch."
             description="Description for the 'learningml' extension"
-                id="gui.extension.learningml.description"
-            />
-        ),
-        featured: true,
-        helpLink: 'http://learningml.org/'
-    },
-    {
-        name: 'LearningMLImages',
-        extensionId: 'learningmlImages',
-        collaborator: 'KGBIII, EchidnaSTEAM, Scratch al Sur',
-        iconURL: learningmlIconURL,
-        insetIconURL: learningmlImageInsetIconURL,
-        description: (
-            <FormattedMessage
-                defaultMessage="Build Machine Learning models with LearningML and use them with Scratch."
-                description="Description for the 'learningml' extension"
-                id="gui.extension.learningml.description"
-            />
-        ),
-        featured: true,
-        helpLink: 'http://learningml.org/'
-    },
-    {
-        name: 'LearningMLNumerical',
-        extensionId: 'learningmlNumerical',
-        collaborator: 'KGBIII, EchidnaSTEAM, Scratch al Sur',
-        iconURL: learningmlIconURL,
-        insetIconURL: learningmlNumericalInsetIconURL,
-        description: (
-            <FormattedMessage
-                defaultMessage="Build Machine Learning models with LearningML and use them with Scratch."
-                description="Description for the 'learningml' extension"
                 id="gui.extension.learningml.description"
             />
         ),

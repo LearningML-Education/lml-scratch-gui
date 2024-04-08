@@ -1,5 +1,7 @@
 # lml-scratch-gui
 
+ATENCIÓN: Se puede compilar con node 20.11.0
+
 ## Repository organization
 
 - Branch `develop` has been cloned from https://github.com/scratchfoundation/scratch-gui.git, and has been uploaded to this repo in order to incorporate new code in the future. This branch match with tag v3.2.26.
