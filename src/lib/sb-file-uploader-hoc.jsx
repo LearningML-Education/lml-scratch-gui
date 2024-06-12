@@ -1,10 +1,11 @@
 import bindAll from 'lodash.bindall';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {defineMessages, intlShape, injectIntl} from 'react-intl';
-import {connect} from 'react-redux';
+import { defineMessages, intlShape, injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
 import log from '../lib/log';
 import sharedMessages from './shared-messages';
+import JSZip from 'jszip';
 
 import {
     LoadingStates,
@@ -13,7 +14,7 @@ import {
     onLoadedProject,
     requestProjectUpload
 } from '../reducers/project-state';
-import {setProjectTitle} from '../reducers/project-title';
+import { setProjectTitle } from '../reducers/project-title';
 import {
     openLoadingProject,
     closeLoadingProject
@@ -41,33 +42,75 @@ const messages = defineMessages({
  */
 const SBFileUploaderHOC = function (WrappedComponent) {
     class SBFileUploaderComponent extends React.Component {
-        constructor (props) {
+        constructor(props) {
             super(props);
             bindAll(this, [
                 'createFileObjects',
                 'getProjectTitleFromFilename',
                 'handleFinishedLoadingUpload',
                 'handleStartSelectingFileUpload',
+                'handleStartSelectingModelUpload',
                 'handleChange',
-                'onload',
+                'handleModelChange',
+                'onloadModel',
                 'removeFileObjects'
             ]);
         }
-        componentDidUpdate (prevProps) {
+        componentDidUpdate(prevProps) {
             if (this.props.isLoadingUpload && !prevProps.isLoadingUpload) {
                 this.handleFinishedLoadingUpload(); // cue step 5 below
             }
         }
-        componentWillUnmount () {
+        componentWillUnmount() {
             this.removeFileObjects();
         }
+        handleStartSelectingModelUpload() {
+            console.log('handleStartSelectingModelUpload');
+            this.fileReader = new FileReader();
+            this.fileReader.onload = this.onloadModel;
+            // create <input> element and add it to DOM
+            this.inputElement = document.createElement('input');
+            this.inputElement.accept = '.zip';
+            this.inputElement.style = 'display: none;';
+            this.inputElement.type = 'file';
+            this.inputElement.onchange = this.handleModelChange; // connects to step 3
+            document.body.appendChild(this.inputElement);
+            // simulate a click to open file chooser dialog
+            this.inputElement.click();
+        }
+
+        onloadModel() {
+            console.log('ON LOAD MODEL');
+        }
+
+        handleModelChange(e) {
+            
+            console.log("ON MODEL CHANGE");
+
+            console.log(this.props.vm);
+            
+            let vm = this.props.vm;
+
+            const thisFileInput = e.target;
+            if (thisFileInput.files) { // Don't attempt to load if no file was selected
+                this.fileToUpload = thisFileInput.files[0];
+
+                console.log(this.fileToUpload);
+                const zip = new JSZip();
+                zip.loadAsync(this.fileToUpload).then(zipContent => {
+                    console.log(zipContent.files);
+                    vm.runtime.lmlModel.modelZipContent = zipContent;               
+                })
+                this.props.closeFileMenu();
+            }
+        }
         // step 1: this is where the upload process begins
-        handleStartSelectingFileUpload () {
+        handleStartSelectingFileUpload() {
             this.createFileObjects(); // go to step 2
         }
         // step 2: create a FileReader and an <input> element, and issue a
         // pseudo-click to it. That will open the file chooser dialog.
-        createFileObjects () {
+        createFileObjects() {
             // redo step 7, in case it got skipped last time and its objects are
             // still in memory
             this.removeFileObjects();
@@ -86,7 +129,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
         }
         // step 3: user has picked a file using the file chooser dialog.
         // We don't actually load the file here, we only decide whether to do so.
-        handleChange (e) {
+        handleChange(e) {
             const {
                 intl,
                 isShowingWithoutId,
@@ -122,7 +165,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
 
         // step 5: called from componentDidUpdate when project state shows
         // that project data has finished "uploading" into the browser
-        handleFinishedLoadingUpload () {
+        handleFinishedLoadingUpload() {
             if (this.fileToUpload && this.fileReader) {
                 // begin to read data from the file. When finished,
                 // cues step 6 using the reader's onload callback
@@ -134,7 +177,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
             }
         }
         // used in step 6 below
-        getProjectTitleFromFilename (fileInputFilename) {
+        getProjectTitleFromFilename(fileInputFilename) {
             if (!fileInputFilename) return '';
             // only parse title with valid scratch project extensions
             // (.sb, .sb2, and .sb3)
@@ -144,7 +187,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
         }
         // step 6: attached as a handler on our FileReader object; called when
         // file upload raw data is available in the reader
-        onload () {
+        onload() {
             if (this.fileReader) {
                 this.props.onLoadingStarted();
                 const filename = this.fileToUpload && this.fileToUpload.name;
@@ -171,7 +214,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
         }
         // step 7: remove the <input> element from the DOM and clear reader and
         // fileToUpload reference, so those objects can be garbage collected
-        removeFileObjects () {
+        removeFileObjects() {
             if (this.inputElement) {
                 this.inputElement.value = null;
                 document.body.removeChild(this.inputElement);
@@ -180,7 +223,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
             this.fileReader = null;
             this.fileToUpload = null;
         }
-        render () {
+        render() {
             const {
                 /* eslint-disable no-unused-vars */
                 cancelFileUpload,
@@ -201,9 +244,11 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                 <React.Fragment>
                     <WrappedComponent
                         onStartSelectingFileUpload={this.handleStartSelectingFileUpload}
+                        onStartSelectingModelUpload={this.handleStartSelectingModelUpload}
                         {...componentProps}
                     />
                 </React.Fragment>
+
             );
         }
     }

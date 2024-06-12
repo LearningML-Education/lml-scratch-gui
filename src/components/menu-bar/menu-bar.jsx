@@ -170,6 +170,8 @@ AboutButton.propTypes = {
 
 class MenuBar extends React.Component {
     constructor (props) {
+        console.log("PROPS");
+        console.log(props);
         super(props);
         bindAll(this, [
             'handleClickNew',
@@ -512,6 +514,11 @@ class MenuBar extends React.Component {
                                                 />
                                             </MenuItem>
                                         )}</SB3Downloader>
+                                         <MenuItem
+                                            onClick={this.props.onStartSelectingModelUpload}
+                                        >
+                                            {this.props.intl.formatMessage(sharedMessages.loadModelFromComputerTitle)}
+                                        </MenuItem>
                                     </MenuSection>
                                 </MenuBarMenu>
                             </div>
@@ -734,6 +741,7 @@ MenuBar.propTypes = {
     onSetTimeTravelMode: PropTypes.func,
     onShare: PropTypes.func,
     onStartSelectingFileUpload: PropTypes.func,
+    onStartSelectingModelUpload: PropTypes.func,
     onToggleLoginOpen: PropTypes.func,
     projectTitle: PropTypes.string,
     renderLogin: PropTypes.func,
