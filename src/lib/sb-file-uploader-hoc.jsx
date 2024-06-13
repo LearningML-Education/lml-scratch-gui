@@ -99,7 +99,9 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                 const zip = new JSZip();
                 zip.loadAsync(this.fileToUpload).then(zipContent => {
                     console.log(zipContent.files);
-                    vm.runtime.lmlModel.modelZipContent = zipContent;               
+                    vm.runtime.modelZipContent = zipContent;  
+                    let bc = new BroadcastChannel('lml-editor');             
+                    bc.postMessage('updateModel');
                 })
                 this.props.closeFileMenu();
             }
