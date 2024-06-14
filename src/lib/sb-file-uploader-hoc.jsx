@@ -52,6 +52,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                 'handleStartSelectingModelUpload',
                 'handleChange',
                 'handleModelChange',
+                'onload',
                 'onloadModel',
                 'removeFileObjects'
             ]);
