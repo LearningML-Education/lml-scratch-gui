@@ -90,6 +90,7 @@ import ninetiesLogo from './nineties_logo.svg';
 import catLogo from './cat_logo.svg';
 import prehistoricLogo from './prehistoric-logo.svg';
 import oldtimeyLogo from './oldtimey-logo.svg';
+import lmlLogo from './lml-scratch-logo.svg';
 
 import sharedMessages from '../../lib/shared-messages';
 
@@ -774,7 +775,7 @@ MenuBar.propTypes = {
 };
 
 MenuBar.defaultProps = {
-    logo: scratchLogo,
+    logo: lmlLogo,
     onShare: () => { }
 };
 
