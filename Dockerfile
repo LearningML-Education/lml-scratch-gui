@@ -15,3 +15,4 @@ RUN git clone https://gitlab.com/lml-corp/lml-scratch-l10n && \
 FROM nginx:1.27.1
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY --from=lml-scratch /app/lml-scratch-gui/build /usr/share/nginx/html/scratch
+COPY ./index.html /usr/share/nginx/html/scratch/index.html
