@@ -1,6 +1,5 @@
 FROM node:20.11.0 AS lml-scratch
 ENV NODE_OPTIONS=--openssl-legacy-provider
-ENV NODE_ENV=production
 COPY . /app/lml-scratch-gui
 WORKDIR /app 
 RUN git clone https://gitlab.com/lml-corp/lml-scratch-l10n && \
@@ -14,4 +13,5 @@ RUN git clone https://gitlab.com/lml-corp/lml-scratch-l10n && \
 
 
 FROM nginx:1.27.1
+COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY --from=lml-scratch /app/lml-scratch-gui/build /usr/share/nginx/html/scratch
