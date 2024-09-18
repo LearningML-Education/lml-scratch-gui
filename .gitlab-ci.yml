@@ -19,4 +19,6 @@ build-job:       # This job runs in the build stage, which runs first.
 
       docker build --pull -t $IMAGE_NAME:$CI_COMMIT_REF_NAME .
       
-      docker push $IMAGE_NAME:$CI_COMMIT_REF_NAME  
+      docker push $IMAGE_NAME:$CI_COMMIT_REF_NAME
+  only:
+    - main
