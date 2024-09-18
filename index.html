@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google" value="notranslate">
+    <link rel="shortcut icon" href="static/favicon.ico">
+    <title>LML Scratch GUI</title>
+    <style>
+      /* Estilo para el fondo verde y el mensaje de carga */
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: rgb(72, 199, 142);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: white;
+        font-family: Arial, sans-serif;
+        font-size: 2em;
+      }
+
+      #loading {
+        display: block;
+      }
+
+      #content {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loading">Loading LML-Scratch... Please be patient</div>
+    <div id="content">
+      <!-- Aquí iría el contenido de la página cuando las librerías se hayan cargado -->
+    </div>
+
+    <!-- Scripts para cargar las librerías -->
+    <script type="text/javascript">
+      // Escucha el evento 'load' del script de lib.min.js
+      var script = document.createElement('script');
+      script.src = "lib.min.js";
+      script.onload = function() {
+        // Ocultamos el mensaje de "loading..." y mostramos el contenido cuando lib.min.js haya cargado
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+      };
+      document.body.appendChild(script);
+    </script>
+
+    <script type="text/javascript" src="chunks/gui.js"></script>
+  </body>
+</html>
