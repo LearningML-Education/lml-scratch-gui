@@ -4,9 +4,9 @@ ENV NODE_ENV=production
 COPY . /app/lml-scratch-gui
 WORKDIR /app 
 RUN git clone https://gitlab.com/lml-corp/lml-scratch-l10n && \
-    cd /app/lml-scratch-l10n && git checkout devel && cd /app && \
+    cd /app/lml-scratch-l10n && git checkout main && cd /app && \
     git clone https://gitlab.com/lml-corp/lml-scratch-vm && \
-    cd /app/lml-scratch-vm && git checkout devel && \
+    cd /app/lml-scratch-vm && git checkout main && \
     cd /app/lml-scratch-l10n && npm install && npm run build && npm link && \
     cd /app/lml-scratch-vm && npm install && npm link && npm link scratch-l10n && \
     cd /app/lml-scratch-gui && npm install && npm link scratch-vm scratch-l10n && \
