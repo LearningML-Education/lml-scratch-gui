@@ -11,7 +11,11 @@
       body {
         margin: 0;
         padding: 0;
-        background-color: rgb(72, 199, 142);
+        background-color: rgb(72, 199, 142); /* Color de respaldo si la imagen no carga */
+        background-image: url('lml.png'); /* Reemplaza con la ruta de tu imagen */
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -20,35 +24,10 @@
         font-family: Arial, sans-serif;
         font-size: 2em;
       }
-
-      #loading {
-        display: block;
-      }
-
-      #content {
-        display: none;
-      }
     </style>
   </head>
   <body>
-    <div id="loading">Loading LML-Scratch... Please be patient</div>
-    <div id="content">
-      <!-- Aquí iría el contenido de la página cuando las librerías se hayan cargado -->
-    </div>
-
-    <!-- Scripts para cargar las librerías -->
-    <script type="text/javascript">
-      // Escucha el evento 'load' del script de lib.min.js
-      var script = document.createElement('script');
-      script.src = "lib.min.js";
-      script.onload = function() {
-        // Ocultamos el mensaje de "loading..." y mostramos el contenido cuando lib.min.js haya cargado
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('content').style.display = 'block';
-      };
-      document.body.appendChild(script);
-    </script>
-
+    <script type="text/javascript" src="lib.min.js"></script>
     <script type="text/javascript" src="chunks/gui.js"></script>
   </body>
 </html>
