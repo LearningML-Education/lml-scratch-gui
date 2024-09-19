@@ -16,3 +16,4 @@ FROM nginx:1.27.1
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY --from=lml-scratch /app/lml-scratch-gui/build /usr/share/nginx/html/scratch
 COPY ./index.html /usr/share/nginx/html/scratch/index.html
+COPY ./lml.png /usr/share/nginx/html/scratch/lml.png
