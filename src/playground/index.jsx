@@ -17,10 +17,16 @@ if (typeof window !== 'undefined') {
     if (process.env.LML_ALGO_MODE) {
         window.LML_ALGO_MODE = process.env.LML_ALGO_MODE;
         window.localStorage?.setItem('LML_ALGO_MODE', process.env.LML_ALGO_MODE);
+    } else {
+        delete window.LML_ALGO_MODE;
+        window.localStorage?.removeItem('LML_ALGO_MODE');
     }
     if (process.env.LML_ALGO_BASE_URL) {
         window.LML_ALGO_BASE_URL = process.env.LML_ALGO_BASE_URL;
         window.localStorage?.setItem('LML_ALGO_BASE_URL', process.env.LML_ALGO_BASE_URL);
+    } else {
+        delete window.LML_ALGO_BASE_URL;
+        window.localStorage?.removeItem('LML_ALGO_BASE_URL');
     }
 }
 
