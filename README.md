@@ -57,6 +57,27 @@ Note: the commands `npm link <scratch-library>` change the code of the original
 dependency to the ones that have been linked previously, that is, in our case we 
 use our version of scratch-vm (learning-scratch-vm) and scratch-l10n (learning-scratch-l10n).
 
+## Algoritmos de ML (modo local o servidor)
+
+Las variables `LML_ALGO_MODE` y `LML_ALGO_BASE_URL` controlan si Scratch usa algoritmos locales (en el navegador) o la API `/api/lml/v2`.
+
+| Variable | Valor por defecto | Descripcion |
+|--|--|--|
+|`LML_ALGO_MODE`|client|Modo de algoritmos: `client` (local) o `server` (API)|
+|`LML_ALGO_BASE_URL`|""|Base URL de la API cuando `LML_ALGO_MODE=server`|
+
+Arranque en modo local (por defecto):
+
+```bash
+npm start
+```
+
+Arranque usando la API:
+
+```bash
+LML_ALGO_MODE=server LML_ALGO_BASE_URL=http://localhost:3000 npm start
+```
+
 # Original README.md
 
 
