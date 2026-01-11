@@ -161,7 +161,9 @@ module.exports = [
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
                 'process.env.DEBUG': Boolean(process.env.DEBUG),
-                'process.env.GA_ID': `"${process.env.GA_ID || 'UA-000000-01'}"`
+                'process.env.GA_ID': `"${process.env.GA_ID || 'UA-000000-01'}"`,
+                'process.env.LML_ALGO_MODE': `"${process.env.LML_ALGO_MODE || ''}"`,
+                'process.env.LML_ALGO_BASE_URL': `"${process.env.LML_ALGO_BASE_URL || ''}"`
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'gui'],

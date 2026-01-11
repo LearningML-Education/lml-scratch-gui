@@ -13,6 +13,17 @@ import supportedBrowser from '../lib/supported-browser';
 
 import styles from './index.css';
 
+if (typeof window !== 'undefined') {
+    if (process.env.LML_ALGO_MODE) {
+        window.LML_ALGO_MODE = process.env.LML_ALGO_MODE;
+        window.localStorage?.setItem('LML_ALGO_MODE', process.env.LML_ALGO_MODE);
+    }
+    if (process.env.LML_ALGO_BASE_URL) {
+        window.LML_ALGO_BASE_URL = process.env.LML_ALGO_BASE_URL;
+        window.localStorage?.setItem('LML_ALGO_BASE_URL', process.env.LML_ALGO_BASE_URL);
+    }
+}
+
 const appTarget = document.createElement('div');
 appTarget.className = styles.app;
 document.body.appendChild(appTarget);
