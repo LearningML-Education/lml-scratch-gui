@@ -73,6 +73,19 @@
     background-color: $ui-black-transparent;
 }
 
+.lml-version {
+    margin-left: 0.5rem;
+    opacity: 0.75;
+    font-style: italic;
+    font-size: $menu-bar-standard-font-size;
+}
+
+.lml-version-item {
+    cursor: default;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+}
+
 .menu-bar-item.growable {
     max-width: $menu-bar-item-max-width;
     flex: 1;

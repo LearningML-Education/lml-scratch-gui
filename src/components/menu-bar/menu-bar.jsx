@@ -93,6 +93,7 @@ import oldtimeyLogo from './oldtimey-logo.svg';
 import lmlLogo from './lml-scratch-logo.svg';
 
 import sharedMessages from '../../lib/shared-messages';
+import packageJson from '../../../package.json';
 
 const ariaMessages = defineMessages({
     tutorials: {
@@ -677,6 +678,11 @@ class MenuBar extends React.Component {
                         >
                             <span className={styles.tutorialsLabel}>
                                 <FormattedMessage {...ariaMessages.lml} />
+                            </span>
+                        </div>
+                        <div className={classNames(styles.menuBarItem, styles.lmlVersionItem)}>
+                            <span className={styles.lmlVersion}>
+                                {packageJson.lml_version}
                             </span>
                         </div>
                     </div>
