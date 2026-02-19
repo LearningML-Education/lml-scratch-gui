@@ -78,6 +78,42 @@ Arranque usando la API:
 LML_ALGO_MODE=server LML_ALGO_BASE_URL=http://localhost:3000 npm start
 ```
 
+## Variables de entorno para construir lml-scratch
+
+Estas variables se pueden usar al construir/arrancar `lml-scratch-gui` y `lml-scratch-vm`.
+
+| Variable | Proyecto | Valor por defecto | Uso |
+|--|--|--|--|
+|`NODE_ENV`|GUI + VM|`development`|Modo de compilacion (`development`/`production`)|
+|`PORT`|GUI + VM|GUI:`8601`, VM:`8073`|Puerto del dev server|
+|`BUILD_MODE`|GUI|`""`|Si es `dist`, genera la build de libreria (`scratch-gui`)|
+|`STATIC_PATH`|GUI|`/static`|`publicPath` usado en build de distribucion del GUI|
+|`LML_ALGO_MODE`|GUI + VM|`client`|Modo de algoritmos: `client` (local) o `server` (API)|
+|`LML_ALGO_BASE_URL`|GUI + VM|`""`|Base URL de la API cuando `LML_ALGO_MODE=server`|
+|`MOBILENET_BASE_URL`|GUI + VM|`""`|Base URL desde la que se cargan los modelos MobileNet de la extension LearningML|
+|`GA_ID`|GUI|`UA-000000-01`|ID de Google Analytics en el playground|
+|`DEBUG`|GUI|`false`|Flag de depuracion inyectado en build del playground|
+
+Ejemplos:
+
+Build local del GUI/VM usando MobileNet desde un host concreto:
+
+```bash
+MOBILENET_BASE_URL=https://tu-host-modelos npm start
+```
+
+Build del GUI en modo distribucion:
+
+```bash
+NODE_ENV=production BUILD_MODE=dist STATIC_PATH=/static MOBILENET_BASE_URL=https://tu-host-modelos npm run build
+```
+
+Ejecucion contra API de algoritmos:
+
+```bash
+LML_ALGO_MODE=server LML_ALGO_BASE_URL=https://tu-api MOBILENET_BASE_URL=https://tu-host-modelos npm start
+```
+
 # Original README.md
 
 
