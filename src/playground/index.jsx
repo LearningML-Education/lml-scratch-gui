@@ -28,6 +28,13 @@ if (typeof window !== 'undefined') {
         delete window.LML_ALGO_BASE_URL;
         window.localStorage?.removeItem('LML_ALGO_BASE_URL');
     }
+    if (process.env.MOBILENET_BASE_URL) {
+        window.MOBILENET_BASE_URL = process.env.MOBILENET_BASE_URL;
+        window.localStorage?.setItem('MOBILENET_BASE_URL', process.env.MOBILENET_BASE_URL);
+    } else {
+        delete window.MOBILENET_BASE_URL;
+        window.localStorage?.removeItem('MOBILENET_BASE_URL');
+    }
 }
 
 const appTarget = document.createElement('div');
