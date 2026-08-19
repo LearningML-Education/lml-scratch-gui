@@ -56,16 +56,40 @@ gh api repos/LearningML-Education/lml-scratch-gui/environments/github-pages/depl
    antes de empujar nada — es una acción visible en repos públicos y
    dispara CI.
 
-4. Crear y empujar el tag **en este orden: `l10n` → `vm` → `gui`**
+4. **En `lml-scratch-gui` únicamente** (los otros dos repos no tienen
+   estos archivos), antes de crear ningún tag:
+   - Actualizar el campo `"lml_version"` de `package.json` al valor de
+     `TAG` sin el prefijo `v` (p. ej. tag `v2.0.2` → `"lml_version":
+     "2.0.2"`). Este campo se ha quedado desincronizado en el pasado
+     (releases `v2.0.1`/`v2.0.0-beta7` no lo actualizaron) — no lo des
+     por hecho, comprueba el valor actual con `grep lml_version
+     package.json` antes de editar.
+   - Añadir una entrada nueva al principio de `CHANGELOG-lml.md` (crear
+     el archivo con la plantilla de la sección siguiente si no existe
+     todavía) describiendo los cambios de esta release. Si el usuario
+     dice que la release "no tiene cambios" (solo prueba del pipeline),
+     dilo explícitamente en la entrada en vez de omitirla.
+   - Commitear ambos cambios juntos en `main` y empujar **antes** de
+     tagear, para que el tag apunte a un commit que ya lleve la versión
+     y el changelog correctos:
+     ```bash
+     git add package.json CHANGELOG-lml.md
+     git commit -m "chore(release): preparar $TAG"
+     git push origin main
+     ```
+
+5. Crear y empujar el tag **en este orden: `l10n` → `vm` → `gui`**
    (`gui` va último porque su `push --tags` dispara el workflow, y para
-   entonces `vm`/`l10n` ya deben tener el tag en remoto):
+   entonces `vm`/`l10n` ya deben tener el tag en remoto; en `gui` el tag
+   debe quedar sobre el commit de preparación del paso 4, no sobre uno
+   anterior):
    ```bash
    cd lml-scratch-l10n && git tag -a "$TAG" -m "$TAG" && git push origin "$TAG"
    cd ../lml-scratch-vm && git tag -a "$TAG" -m "$TAG" && git push origin "$TAG"
    cd ../lml-scratch-gui && git tag -a "$TAG" -m "$TAG" && git push origin "$TAG"
    ```
 
-5. Localizar y esperar el run que dispara el push del tag:
+6. Localizar y esperar el run que dispara el push del tag:
    ```bash
    RUN_ID=$(gh run list --workflow=deploy-pages.yml \
      -R LearningML-Education/lml-scratch-gui --limit 1 --json databaseId --jq '.[0].databaseId')
@@ -76,7 +100,7 @@ gh api repos/LearningML-Education/lml-scratch-gui/environments/github-pages/depl
    gh workflow run deploy-pages.yml -f tag="$TAG" -R LearningML-Education/lml-scratch-gui
    ```
 
-6. Si `gh run watch` sale con éxito, verificar el sitio:
+7. Si `gh run watch` sale con éxito, verificar el sitio:
    ```bash
    curl -sI https://learningml.org/lml-scratch-gui/
    ```
@@ -84,7 +108,24 @@ gh api repos/LearningML-Education/lml-scratch-gui/environments/github-pages/depl
    ```bash
    gh run view "$RUN_ID" --log-failed -R LearningML-Education/lml-scratch-gui
    ```
-   (típicamente: tag ausente en `vm`/`l10n`, o fallo real de build/`npm link`).
+   (típicamente: tag ausente en `vm`/`l10n`, fallo real de build/`npm
+   link`, o falta la política de deployment branch de tipo `tag`
+   descrita arriba).
+
+### `CHANGELOG-lml.md`
+
+Registra los cambios propios de LML por versión (distinto de
+`CHANGELOG.md`, que es el changelog heredado del proyecto original
+`scratch-gui` y no se toca a mano). Formato:
+
+```markdown
+## [X.Y.Z] - AAAA-MM-DD
+
+### Added|Changed|Fixed
+- Descripción del cambio.
+```
+
+Las entradas nuevas van siempre arriba (orden descendente por versión).
 
 ### Notas
 
