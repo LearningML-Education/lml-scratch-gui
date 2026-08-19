@@ -21,6 +21,23 @@ Repos hermanos, mismo nivel que este (`org` GitHub:
 de que el deploy se dispare, o el paso `git clone --branch "$TAG_NAME"`
 del workflow falla.
 
+**Requisito de configuración (ya aplicado, verificar si algo falla):**
+el entorno `github-pages` de este repo en GitHub tiene protección de
+rama de despliegue (`custom_branch_policies: true`). Por defecto solo
+permitía la rama `main`, lo que rechazaba el deploy disparado por
+`push: tags` (un tag no es una rama). Hay que tener una política de
+tipo `tag` que cubra el patrón de tags usado (`v*`):
+```bash
+gh api repos/LearningML-Education/lml-scratch-gui/environments/github-pages/deployment-branch-policies \
+  -f name='v*' -f type=tag
+```
+Si un release falla en segundos con la anotación *"Tag ... is not
+allowed to deploy to github-pages due to environment protection
+rules"*, es este el problema — revisa las políticas con:
+```bash
+gh api repos/LearningML-Education/lml-scratch-gui/environments/github-pages/deployment-branch-policies
+```
+
 ### Procedimiento
 
 1. Elegir `TAG` (sigue el esquema existente, p. ej. `v2.0.0-beta7`; usa
