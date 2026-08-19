@@ -118,6 +118,8 @@ LML_ALGO_MODE=server LML_ALGO_BASE_URL=https://tu-api MOBILENET_BASE_URL=https:/
 
 La build publicada en GitHub Pages se construye y despliega directamente desde este repositorio (`lml-scratch-gui`), ya que `lml-scratch-gui`, `lml-scratch-vm` y `lml-scratch-l10n` son públicos.
 
+Para el procedimiento paso a paso de crear una nueva release (pensado para agentes de codificación, pero válido para hacerlo a mano), ver [`AGENTS.md`](./AGENTS.md).
+
 ### Flujo automático (por tag)
 
 1. Se crea y empuja un tag en este repo (`git push --tags`).
