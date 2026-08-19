@@ -114,6 +114,27 @@ Ejecucion contra API de algoritmos:
 LML_ALGO_MODE=server LML_ALGO_BASE_URL=https://tu-api MOBILENET_BASE_URL=https://tu-host-modelos npm start
 ```
 
+## Despliegue en GitHub Pages
+
+La build publicada en GitHub Pages se construye y despliega directamente desde este repositorio (`lml-scratch-gui`), ya que `lml-scratch-gui`, `lml-scratch-vm` y `lml-scratch-l10n` son públicos.
+
+### Flujo automático (por tag)
+
+1. Se crea y empuja un tag en este repo (`git push --tags`).
+2. La action `.github/workflows/deploy-pages.yml`:
+   1. Hace checkout de este repo en ese tag.
+   2. Clona `lml-scratch-l10n` y `lml-scratch-vm` en el **mismo nombre de tag** (deben estar etiquetados en sincronía).
+   3. Construye `lml-scratch-l10n`, enlaza dependencias con `npm link`, y construye este repo con `BUILD_MODE=dist npm run build`.
+   4. Publica la carpeta `build/` en GitHub Pages.
+
+### Flujo manual
+
+`Actions → Deploy Pages → Run workflow`, indicando el `tag` a desplegar (debe existir con ese mismo nombre en `lml-scratch-vm` y `lml-scratch-l10n`).
+
+### Variables de entorno de la build
+
+En el paso `Build scratch` se usa `MOBILENET_BASE_URL: ${{ vars.MOBILENET_BASE_URL }}`, definida en el environment `github-pages` de este repositorio.
+
 # Original README.md
 
 

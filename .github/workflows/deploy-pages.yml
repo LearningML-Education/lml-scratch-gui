@@ -1,0 +1,89 @@
+name: Deploy Pages
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag a desplegar"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    env:
+      TAG_NAME: ${{ inputs.tag || github.ref_name }}
+    steps:
+      - name: Validate tag
+        run: |
+          if [ -z "$TAG_NAME" ]; then
+            echo "Missing tag."
+            exit 1
+          fi
+
+      - name: Checkout gui at tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG_NAME }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Clone sibling repos at tag
+        run: |
+          git clone --depth 1 --branch "$TAG_NAME" \
+            https://github.com/LearningML-Education/lml-scratch-l10n.git \
+            lml-scratch-l10n
+          git clone --depth 1 --branch "$TAG_NAME" \
+            https://github.com/LearningML-Education/lml-scratch-vm.git \
+            lml-scratch-vm
+
+      - name: Build scratch
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
+          MOBILENET_BASE_URL: ${{ vars.MOBILENET_BASE_URL }}
+        run: |
+          if [ -z "$MOBILENET_BASE_URL" ]; then
+            echo "WARNING: MOBILENET_BASE_URL is not defined."
+          else
+            echo "MOBILENET_BASE_URL is defined."
+          fi
+          cd lml-scratch-l10n
+          npm install
+          npm run build
+          npm link
+          cd ../lml-scratch-vm
+          npm install
+          npm link
+          npm link scratch-l10n
+          cd ..
+          npm install
+          npm link scratch-vm scratch-l10n
+          BUILD_MODE=dist npm run build
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
